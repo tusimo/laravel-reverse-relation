@@ -1,0 +1,28 @@
+{
+  "name": "tusimo/laravel-reverse-relation",
+  "description": "a one to one and one to many reverse relation for laravel",
+  "keywords": ["laravel","eloquent","database","model","reverse model"],
+  "homepage": "https://github.com/tusimo/laravel-reverse-relation",
+  "authors": [
+    {
+      "name": "tusimo",
+      "homepage": "https://github.com/tusimo/laravel-reverse-relation"
+    }
+  ],
+  "license" : "MIT",
+  "require": {
+    "illuminate/support": "^5.4",
+    "illuminate/container": "^5.4",
+    "illuminate/database": "^5.4",
+    "illuminate/events": "^5.4",
+    "myclabs/deep-copy": "^1.6"
+  },
+  "require-dev": {
+
+  },
+  "autoload": {
+    "psr-4": {
+      "Tusimo\\ReverseRelation\\": "src/"
+    }
+  }
+}
