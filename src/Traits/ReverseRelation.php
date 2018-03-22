@@ -41,15 +41,13 @@ trait ReverseRelation
             return;
         }
         if ($reverseRelation = $this->$relation()->getReverse()) {
-            if ($reverseRelation = $this->$relation()->getReverse()) {
-                if ($value instanceof Model && !$value->relationLoaded($reverseRelation)) {
-                    $value->setRelation($reverseRelation, $this->cloneModelWithRelation($this));
-                } else {
-                    $value->each(function ($model) use ($reverseRelation) {
-                        !$model->relationLoaded($reverseRelation) &&
-                        $model->setRelation($reverseRelation, $this->cloneModelWithRelation($this));
-                    });
-                }
+            if ($value instanceof Model && !$value->relationLoaded($reverseRelation)) {
+                $value->setRelation($reverseRelation, $this->cloneModelWithRelation($this));
+            } else {
+                $value->each(function ($model) use ($reverseRelation) {
+                    !$model->relationLoaded($reverseRelation) &&
+                    $model->setRelation($reverseRelation, $this->cloneModelWithRelation($this));
+                });
             }
         }
     }
