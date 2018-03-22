@@ -36,13 +36,20 @@ trait ReverseRelation
         if (!$value) {
             return;
         }
+        //do not set many to many relations cause we will miss some data
+        if (in_array(class_basename($this->$relation()), self::$manyMethods)) {
+            return;
+        }
         if ($reverseRelation = $this->$relation()->getReverse()) {
-            if ($value instanceof Model) {
-                $value->setRelation($reverseRelation, $this->cloneModelWithoutRelation($this));
-            } else {
-                $value->each(function ($model) use ($reverseRelation) {
-                    $model->setRelation($reverseRelation, $this->cloneModelWithoutRelation($this));
-                });
+            if ($reverseRelation = $this->$relation()->getReverse()) {
+                if ($value instanceof Model && !$value->relationLoaded($reverseRelation)) {
+                    $value->setRelation($reverseRelation, $this->cloneModelWithRelation($this));
+                } else {
+                    $value->each(function ($model) use ($reverseRelation) {
+                        !$model->relationLoaded($reverseRelation) &&
+                        $model->setRelation($reverseRelation, $this->cloneModelWithRelation($this));
+                    });
+                }
             }
         }
     }
@@ -52,7 +59,7 @@ trait ReverseRelation
      * @param Model $model
      * @return mixed
      */
-    protected function cloneModelWithoutRelation(Model $model)
+    protected function cloneModelWithRelation(Model $model)
     {
         $copier = new DeepCopy();
         $newModel = $copier->copy($model);
